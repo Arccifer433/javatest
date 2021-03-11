@@ -4,32 +4,28 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.text.StyledEditorKit.BoldAction;
 
 /**
  * Solution
  */
 public class Solution {
  public static void main(String[] args) {
-     Integer[] unsorted = {1, 7, 2, 3, 19, 5};
-     List<Integer> list = Question1.funnySort(Arrays.asList(unsorted));
-     //System.out.println(list.size());
-     System.out.println(list);
-     //Question 2 testing
+     if(Tests.test1()){
+        System.out.println("question 1 passed tests");
+     }
+     if(Tests.test3()){
+        System.out.println("question 3 passed tests");
+     }
+     if(Tests.test4()){
+        System.out.println("question 4 passed tests");
+     }
+     if(Tests.test5()){
+        System.out.println("question 5 passed tests");
+     }
+    //  Question 2 testing
      List<Integer> question2inp = Arrays.asList(new Integer[] {1, 3, 5, 2, 4, 6, 8, 2});
      Question2.distantODDNumbers(question2inp);
      System.out.println(question2inp);
-     //Question 3 testing
-    System.out.println(Question3.isAnagram("zzcz", "aaad", -1));
-    System.out.println(Question3.isAnagram("aaad", "zzcz", -1));
-     //Question 4 testing
-     Integer[] row1 = {1, 0, 0, 0};
-     Integer[] row2 = {2, 5, 0, 0};
-     Integer[] row3 = {3, 2, 1, 0};
-     Integer[] row4 = {1, 3, 2, 1};
-     List[] rows = {Arrays.asList(row1), Arrays.asList(row2), Arrays.asList(row3), Arrays.asList(row4)};
-     List<List<Integer>> lst = Arrays.asList(rows);
-     System.out.println(Question4.highestSumList(lst));
     }
 
 
@@ -249,7 +245,7 @@ class Question5{
         }
         return true;
     }
-    public List<Integer> sumOfPrimes(int number){
+    public static List<Integer> sumOfPrimes(int number){
         List<Integer> res = new ArrayList<>();
         if(checkPrime(number)){
             res.add(number);
@@ -283,11 +279,21 @@ class Tests{
         Integer[] unsorted = {1, 7, 2, 3, 19, 5};
         List<Integer> list = Question1.funnySort(Arrays.asList(unsorted));
         //System.out.println(list.size());
-        System.out.println(list);
-        if(list.equals(Arrays.asList(new Integer[] {17, 9, 1, 2, 5, 3}))){
-            return true;
+        // System.out.println(laist);
+        if(!list.equals(Arrays.asList(new Integer[] {19, 7, 1, 2, 5, 3}))){
+            return false;
         }
-        return false;
+        return true;
+    }
+
+    static boolean test3(){
+        if(!Question3.isAnagram("zzcz", "aaad", -1)){
+            return false;
+        }
+        if(!Question3.isAnagram("aaad", "zzcz", -1)){
+            return false;
+        }
+        return true;
     }
 
     static boolean test4(){
@@ -297,9 +303,48 @@ class Tests{
         Integer[] row4 = {1, 3, 2, 1};
         List[] rows = {Arrays.asList(row1), Arrays.asList(row2), Arrays.asList(row3), Arrays.asList(row4)};
         List<List<Integer>> lst = Arrays.asList(rows);
-        if (Question4.highestSumList(lst).equals(Arrays.asList(new Integer[] {1, 5, 2, 3}))){
-            return true;
+        if (!Question4.highestSumList(lst).equals(Arrays.asList(new Integer[] {1, 5, 2, 3}))){
+            return false;
         }
-        return false;
+        return true;
+    }
+
+    static boolean test5(){
+        if (!Question5.sumOfPrimes(6).equals(Arrays.asList(new Integer[] {}))){
+            return false;
+        }
+        List<Integer> sum9 = Question5.sumOfPrimes(9);
+        if (!Tests.checkQuestion5(sum9, 9)){
+            return false;
+        }
+        if (!Tests.checkQuestion5(Question5.sumOfPrimes(5), 5)){
+            return false;
+        }
+        return true;
+    }
+
+    static boolean checkQuestion5(List<Integer> lst, int sum){
+        for(int i:lst){
+            if(i<2){
+                return false;
+            }
+            sum-=i;
+        }
+        if (sum!=0){
+            return false;
+        }
+        Set<Integer> targetSet = new HashSet<Integer>(lst);
+        if(targetSet.size()<lst.size()){
+            return false;
+        }
+        for (int i : lst){
+            for (int j = 2; j <= Math.sqrt(i); j++) {
+                // condition for nonprime number
+                if (i % j == 0) {
+                  return false;
+                }
+              }
+        }
+        return true;
     }
 }
